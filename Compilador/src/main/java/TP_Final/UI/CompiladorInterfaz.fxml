@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="anchorPane" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TP_Final.UI.CompiladorController">
+   <children>
+      <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabCodigoFuente" text="Codigo fuente">
+			<VBox fx:id="vBoxCodigoFuente">
+				<children>
+	          		<ToolBar fx:id="toolBarCodigoFuente" maxHeight="40.0" minHeight="40.0" prefHeight="40.0">
+	            		<items>
+							<Button fx:id="btnCargarCodigoFuente" mnemonicParsing="false" onAction="#cargarCodigoFuente" text="Cargar Codigo Fuente">
+								<tooltip>
+									<Tooltip text="Cargar archivo txt con codigo fuente" />
+								</tooltip>
+							</Button>
+						</items>
+					</ToolBar>
+					<StackPane fx:id="paneCodigoFuente" />
+				</children>
+			</VBox>
+          </Tab>	
+          <Tab fx:id="tabVerTS" text="Ver TS">
+          	<VBox fx:id="vBoxVerTS">
+				<children>
+	          		<ToolBar fx:id="toolBarVerTS" maxHeight="40.0" minHeight="40.0" prefHeight="40.0">
+	            		<items>
+							<Button fx:id="btnVerTS" mnemonicParsing="false" onAction="#verTS" text="Refrescar">
+								<tooltip>
+									<Tooltip text="Ver Tabla de Simbolos acorde a Codigo Fuente actual" />
+								</tooltip>
+							</Button>
+						</items>
+					</ToolBar>
+					<StackPane fx:id="paneVerTS" />
+				</children>
+			</VBox>
+          </Tab>
+          <Tab fx:id="tabVerAST" text="Ver AST">
+          	<VBox fx:id="vBoxVerAST">
+				<children>
+	          		<ToolBar fx:id="toolBarVerAST" maxHeight="40.0" minHeight="40.0" prefHeight="40.0">
+	            		<items>
+							<Button fx:id="btnVerAST" mnemonicParsing="false" onAction="#verAST" text="Refrescar">
+								<tooltip>
+									<Tooltip text="Ver AST acorde a Codigo Fuente actual" />
+								</tooltip>
+							</Button>
+						</items>
+					</ToolBar>
+					<StackPane fx:id="paneVerAST">
+						<children>
+                           <ScrollPane fx:id="scrollPaneVerAST">
+                             <content>
+		                     	<ImageView fx:id="imageAST" pickOnBounds="true" preserveRatio="true" />
+                             </content>
+                           </ScrollPane>
+	                    </children>
+                    </StackPane>
+				</children>
+			</VBox>
+          </Tab>
+          <Tab fx:id="tabVerASM" text="Ver ASM">
+           	<VBox fx:id="vBoxVerASM">
+				<children>
+	          		<ToolBar fx:id="toolBarVerASM" maxHeight="40.0" minHeight="40.0" prefHeight="40.0">
+	            		<items>
+							<Button fx:id="btnVerASM" mnemonicParsing="false" onAction="#verASM" text="Refrescar">
+								<tooltip>
+									<Tooltip text="Ver ASM acorde a Codigo Fuente actual" />
+								</tooltip>
+							</Button>
+						</items>
+					</ToolBar>
+					<StackPane fx:id="paneVerASM" />
+				</children>
+			</VBox>
+          </Tab>
+          <Tab fx:id="tabEjecutarCodigo" text="Ejecutar código">
+           	<VBox fx:id="vBoxEjecutarCodigo">
+				<children>
+	          		<ToolBar fx:id="toolBarEjecutarCodigo" maxHeight="40.0" minHeight="40.0" prefHeight="40.0">
+	            		<items>
+							<Button fx:id="btnEjecutarCodigo" mnemonicParsing="false" onAction="#ejecutarCodigo" text="Refrescar">
+								<tooltip>
+									<Tooltip text="Ver Resultado de Ejecucion acorde a Codigo Fuente actual" />
+								</tooltip>
+							</Button>
+						</items>
+					</ToolBar>
+					<StackPane fx:id="paneEjecutarCodigo" />
+				</children>
+			</VBox>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>

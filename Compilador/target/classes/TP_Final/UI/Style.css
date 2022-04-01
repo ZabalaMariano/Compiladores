@@ -1,0 +1,20 @@
+.code-area > *{
+    -fx-font-family: monospace;
+    -fx-font-size: 16px;
+}
+
+#test{
+	-fx-opacity: 0.8;
+	-fx-background-color: #e71919;
+}
+
+Button:hover{
+	-fx-cursor: hand;
+}
+
+#btnASM{
+	-fx-background-color: #6EB4CB;
+  	-fx-font-size: 16px;
+  	-fx-border-width: 1px;
+  	-fx-border-color: #B4B4B4;	
+}

@@ -1,0 +1,270 @@
+graph G {nodo_programa [label="Programa"]
+nodo_314047257 [label="print"]
+nodo_programa -- nodo_314047257
+nodo_834665711 [label="CTE_STR: \"Hola mundo CTE STRING\""]
+nodo_314047257 -- nodo_834665711
+nodo_1245604478 [label=":="]
+nodo_programa -- nodo_1245604478
+nodo_258789066 [label="ID: s1"]
+nodo_1245604478 -- nodo_258789066
+nodo_581866253 [label="CTE_STR: \"Hola mundo ID String\""]
+nodo_1245604478 -- nodo_581866253
+nodo_1815632691 [label="print"]
+nodo_programa -- nodo_1815632691
+nodo_1433182544 [label="ID: s1"]
+nodo_1815632691 -- nodo_1433182544
+nodo_1008676777 [label=":="]
+nodo_programa -- nodo_1008676777
+nodo_1795155420 [label="ID: a1"]
+nodo_1008676777 -- nodo_1795155420
+nodo_1152440947 [label="-"]
+nodo_1008676777 -- nodo_1152440947
+nodo_1961268628 [label="CTE_E: 10"]
+nodo_1152440947 -- nodo_1961268628
+nodo_826384070 [label="CTE_E: 5"]
+nodo_1152440947 -- nodo_826384070
+nodo_612719671 [label=":="]
+nodo_programa -- nodo_612719671
+nodo_1713662358 [label="ID: c1"]
+nodo_612719671 -- nodo_1713662358
+nodo_640555763 [label="CTE_F: 7.5"]
+nodo_612719671 -- nodo_640555763
+nodo_455346014 [label="IF_Nro11"]
+nodo_programa -- nodo_455346014
+nodo_365860073 [label="=="]
+nodo_455346014 -- nodo_365860073
+nodo_1357063967 [label="/"]
+nodo_365860073 -- nodo_1357063967
+nodo_105666162 [label="ID: a1"]
+nodo_1357063967 -- nodo_105666162
+nodo_1038728978 [label="CTE_E: 2"]
+nodo_1357063967 -- nodo_1038728978
+nodo_1558257050 [label="CTE_F: 2.5"]
+nodo_365860073 -- nodo_1558257050
+nodo_359858886 [label="Then"]
+nodo_455346014 -- nodo_359858886
+nodo_1911040476 [label="print"]
+nodo_359858886 -- nodo_1911040476
+nodo_17369564 [label="CTE_STR: \"Division da 2.5\""]
+nodo_1911040476 -- nodo_17369564
+nodo_1439746474 [label="IF_Nro12"]
+nodo_programa -- nodo_1439746474
+nodo_1488487652 [label="=="]
+nodo_1439746474 -- nodo_1488487652
+nodo_1756295398 [label="/"]
+nodo_1488487652 -- nodo_1756295398
+nodo_564155334 [label="CTE_E: 4"]
+nodo_1756295398 -- nodo_564155334
+nodo_1919833025 [label="CTE_E: 2"]
+nodo_1756295398 -- nodo_1919833025
+nodo_1861052108 [label="CTE_E: 2"]
+nodo_1488487652 -- nodo_1861052108
+nodo_1910211127 [label="Then"]
+nodo_1439746474 -- nodo_1910211127
+nodo_1388761513 [label="print"]
+nodo_1910211127 -- nodo_1388761513
+nodo_1379299435 [label="CTE_STR: \"Division da 2\""]
+nodo_1388761513 -- nodo_1379299435
+nodo_1474865127 [label=":="]
+nodo_programa -- nodo_1474865127
+nodo_2056215831 [label="ID: a1"]
+nodo_1474865127 -- nodo_2056215831
+nodo_513839222 [label="CTE_E: 1"]
+nodo_1474865127 -- nodo_513839222
+nodo_2146705121 [label="print"]
+nodo_programa -- nodo_2146705121
+nodo_1831950695 [label="CTE_STR: \"While imprime 3 veces.\""]
+nodo_2146705121 -- nodo_1831950695
+nodo_1842796083 [label="WHILE_Nro2"]
+nodo_programa -- nodo_1842796083
+nodo_2003814623 [label="<="]
+nodo_1842796083 -- nodo_2003814623
+nodo_682873797 [label="ID: a1"]
+nodo_2003814623 -- nodo_682873797
+nodo_1336827349 [label="CTE_E: 3"]
+nodo_2003814623 -- nodo_1336827349
+nodo_345144669 [label="Do"]
+nodo_1842796083 -- nodo_345144669
+nodo_498230816 [label="IF_Nro13"]
+nodo_345144669 -- nodo_498230816
+nodo_732541864 [label="=="]
+nodo_498230816 -- nodo_732541864
+nodo_382993405 [label="ID: a1"]
+nodo_732541864 -- nodo_382993405
+nodo_288091375 [label="CTE_E: 1"]
+nodo_732541864 -- nodo_288091375
+nodo_522591116 [label="Then"]
+nodo_498230816 -- nodo_522591116
+nodo_2037702451 [label="print"]
+nodo_522591116 -- nodo_2037702451
+nodo_1326051339 [label="CTE_STR: \"While, Print 1.\""]
+nodo_2037702451 -- nodo_1326051339
+nodo_25899409 [label="IF_Nro14"]
+nodo_345144669 -- nodo_25899409
+nodo_777957463 [label="=="]
+nodo_25899409 -- nodo_777957463
+nodo_1896644584 [label="ID: a1"]
+nodo_777957463 -- nodo_1896644584
+nodo_1896169578 [label="CTE_E: 2"]
+nodo_777957463 -- nodo_1896169578
+nodo_693825634 [label="Then"]
+nodo_25899409 -- nodo_693825634
+nodo_1918705942 [label="print"]
+nodo_693825634 -- nodo_1918705942
+nodo_1614607242 [label="CTE_STR: \"While, Print 2.\""]
+nodo_1918705942 -- nodo_1614607242
+nodo_996272631 [label="IF_Nro15"]
+nodo_345144669 -- nodo_996272631
+nodo_1162270489 [label="=="]
+nodo_996272631 -- nodo_1162270489
+nodo_1577585462 [label="ID: a1"]
+nodo_1162270489 -- nodo_1577585462
+nodo_1496257502 [label="CTE_E: 3"]
+nodo_1162270489 -- nodo_1496257502
+nodo_1832216413 [label="Then"]
+nodo_996272631 -- nodo_1832216413
+nodo_507022333 [label="print"]
+nodo_1832216413 -- nodo_507022333
+nodo_16216759 [label="CTE_STR: \"While, Print 3.\""]
+nodo_507022333 -- nodo_16216759
+nodo_560406676 [label=":="]
+nodo_345144669 -- nodo_560406676
+nodo_1739498602 [label="ID: a1"]
+nodo_560406676 -- nodo_1739498602
+nodo_1033092097 [label="+"]
+nodo_560406676 -- nodo_1033092097
+nodo_105513934 [label="ID: a1"]
+nodo_1033092097 -- nodo_105513934
+nodo_506585107 [label="CTE_E: 1"]
+nodo_1033092097 -- nodo_506585107
+nodo_204380747 [label=":="]
+nodo_programa -- nodo_204380747
+nodo_746409083 [label="ID: a1"]
+nodo_204380747 -- nodo_746409083
+nodo_2055175753 [label="+"]
+nodo_204380747 -- nodo_2055175753
+nodo_1809786989 [label="Filter_Nro2"]
+nodo_2055175753 -- nodo_1809786989
+nodo_333126559 [label=":="]
+nodo_1809786989 -- nodo_333126559
+nodo_1434682123 [label="ID: @aux"]
+nodo_333126559 -- nodo_1434682123
+nodo_1410278084 [label="CTE_E: 5"]
+nodo_333126559 -- nodo_1410278084
+nodo_1174529128 [label="IF_Nro18"]
+nodo_1809786989 -- nodo_1174529128
+nodo_223152340 [label=">"]
+nodo_1174529128 -- nodo_223152340
+nodo_1142901165 [label="*"]
+nodo_223152340 -- nodo_1142901165
+nodo_1772833512 [label="CTE_E: 1"]
+nodo_1142901165 -- nodo_1772833512
+nodo_549503249 [label="CTE_E: 5"]
+nodo_1142901165 -- nodo_549503249
+nodo_1169057397 [label="ID: @aux"]
+nodo_223152340 -- nodo_1169057397
+nodo_2076319052 [label="Then"]
+nodo_1174529128 -- nodo_2076319052
+nodo_1208870102 [label=":="]
+nodo_2076319052 -- nodo_1208870102
+nodo_1860398223 [label="ID: @c"]
+nodo_1208870102 -- nodo_1860398223
+nodo_1481126632 [label="*"]
+nodo_1208870102 -- nodo_1481126632
+nodo_856386768 [label="CTE_E: 1"]
+nodo_1481126632 -- nodo_856386768
+nodo_336008499 [label="CTE_E: 5"]
+nodo_1481126632 -- nodo_336008499
+nodo_1643480104 [label="Else"]
+nodo_1174529128 -- nodo_1643480104
+nodo_2016617868 [label="IF_Nro17"]
+nodo_1643480104 -- nodo_2016617868
+nodo_272018358 [label=">"]
+nodo_2016617868 -- nodo_272018358
+nodo_1018464782 [label="CTE_E: 7"]
+nodo_272018358 -- nodo_1018464782
+nodo_1907203444 [label="ID: @aux"]
+nodo_272018358 -- nodo_1907203444
+nodo_273930632 [label="Then"]
+nodo_2016617868 -- nodo_273930632
+nodo_899525423 [label=":="]
+nodo_273930632 -- nodo_899525423
+nodo_769762152 [label="ID: @c"]
+nodo_899525423 -- nodo_769762152
+nodo_809164189 [label="CTE_E: 7"]
+nodo_899525423 -- nodo_809164189
+nodo_1043058059 [label="Else"]
+nodo_2016617868 -- nodo_1043058059
+nodo_1723325874 [label="IF_Nro16"]
+nodo_1043058059 -- nodo_1723325874
+nodo_1181599983 [label=">"]
+nodo_1723325874 -- nodo_1181599983
+nodo_551363466 [label="+"]
+nodo_1181599983 -- nodo_551363466
+nodo_1090188687 [label="CTE_E: 3"]
+nodo_551363466 -- nodo_1090188687
+nodo_410577519 [label="CTE_E: 9"]
+nodo_551363466 -- nodo_410577519
+nodo_813327167 [label="ID: @aux"]
+nodo_1181599983 -- nodo_813327167
+nodo_2037565385 [label="Then"]
+nodo_1723325874 -- nodo_2037565385
+nodo_1857229797 [label=":="]
+nodo_2037565385 -- nodo_1857229797
+nodo_835172302 [label="ID: @c"]
+nodo_1857229797 -- nodo_835172302
+nodo_1388796242 [label="+"]
+nodo_1857229797 -- nodo_1388796242
+nodo_1029996620 [label="CTE_E: 3"]
+nodo_1388796242 -- nodo_1029996620
+nodo_1262391358 [label="CTE_E: 9"]
+nodo_1388796242 -- nodo_1262391358
+nodo_1204496208 [label="Else"]
+nodo_1723325874 -- nodo_1204496208
+nodo_791608114 [label=":="]
+nodo_1204496208 -- nodo_791608114
+nodo_911308923 [label="ID: @c"]
+nodo_791608114 -- nodo_911308923
+nodo_156344815 [label="CTE_E: 0"]
+nodo_791608114 -- nodo_156344815
+nodo_389998130 [label="CTE_E: 100"]
+nodo_2055175753 -- nodo_389998130
+nodo_1334933644 [label="IF_Nro19"]
+nodo_programa -- nodo_1334933644
+nodo_1925071781 [label="=="]
+nodo_1334933644 -- nodo_1925071781
+nodo_1994709700 [label="ID: a1"]
+nodo_1925071781 -- nodo_1994709700
+nodo_369868124 [label="CTE_E: 107"]
+nodo_1925071781 -- nodo_369868124
+nodo_1385886217 [label="Then"]
+nodo_1334933644 -- nodo_1385886217
+nodo_1379475604 [label="print"]
+nodo_1385886217 -- nodo_1379475604
+nodo_47969005 [label="CTE_STR: \"a1 == 107, Exito Filter.\""]
+nodo_1379475604 -- nodo_47969005
+nodo_1232162487 [label="IF_Nro20"]
+nodo_programa -- nodo_1232162487
+nodo_1283389226 [label="=="]
+nodo_1232162487 -- nodo_1283389226
+nodo_1465402289 [label="+"]
+nodo_1283389226 -- nodo_1465402289
+nodo_180985645 [label="CTE_E: 2"]
+nodo_1465402289 -- nodo_180985645
+nodo_1225686069 [label="CTE_E: 2"]
+nodo_1465402289 -- nodo_1225686069
+nodo_1920079257 [label="CTE_E: 5"]
+nodo_1283389226 -- nodo_1920079257
+nodo_1738704301 [label="Then"]
+nodo_1232162487 -- nodo_1738704301
+nodo_559173251 [label="print"]
+nodo_1738704301 -- nodo_559173251
+nodo_461463880 [label="CTE_STR: \"2+2 == 5\""]
+nodo_559173251 -- nodo_461463880
+nodo_2034069884 [label="Else"]
+nodo_1232162487 -- nodo_2034069884
+nodo_180423707 [label="print"]
+nodo_2034069884 -- nodo_180423707
+nodo_165833622 [label="CTE_STR: \"2+2 != 5\""]
+nodo_180423707 -- nodo_165833622
+}
