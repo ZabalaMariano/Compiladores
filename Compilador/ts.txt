@@ -28,6 +28,6 @@
                              d1         ID        int                            ---        ---
                              e1         ID        int                            ---        ---
                              f1         ID      float                            ---        ---
+                             s1         ID     string                            ---        ---
                              @c         ID      float                            ---        ---
                            @aux         ID      float                            ---        ---
-                             s1         ID     string                            ---        ---

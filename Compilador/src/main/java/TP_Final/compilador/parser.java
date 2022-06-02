@@ -396,26 +396,41 @@ public List<NodoExpresion> b ;
 		 
 		 RESULT = new NodoPrograma(ls);
             
-		 listaReglas = listaReglas + "[Regla 0] Programa" + "\n";		 
+		 listaReglas = listaReglas + "[Regla 0] Programa" + "\n";	
+		 
+		//BORRAR////////////////////////////////////v
+		 System.out.println("//---ALL ID y TIPO guardados: case 1---//");
+	     for(int i=0;i<allIdentificadores.size();i++) {
+	            System.out.println("id: " + allIdentificadores.get(i) + " tipo: " +allTipos.get(i));
+		 }
+	   //BORRAR////////////////////////////////////v
+		 
+		 /* Invertimos el array de identificadores para matchear correctamente id-tipo */ 
+		 //Collections.reverse(identificadores);
+		 
+		 System.out.println("//---ID y TIPO guardados: case 1---//");
+	     for(int i=0;i<identificadores.size();i++) {
+	            System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i));	
+	            /* Agrego id - tipo a la tabla de simbolos */ 
+	            tablaSimbolos.agregarObjeto(identificadores.get(i), tipos.get(i),true);
+		 }
+		 for(int i=0;i<constantes.size();i++) {
+		 /* Agrego cte - token a la tabla de simbolos */ 
+			 tablaSimbolos.agregarObjeto(constantes.get(i), tokens.get(i),false);
+		 }                                   
 
 		 if (identificador!=null && tipo!=null)
-         {
-         	tablaSimbolos.agregarObjeto(identificador, tipo,true);
-         	tablaSimbolos.agregarObjeto(identificadoraux, tipoaux,true);
-         }
-		 
-/* Invertimos el array de identificadores para matchear correctamente id-tipo */ Collections.reverse(identificadores);
-for(int i=0;i<identificadores.size();i++) {
-/* Agrego id - tipo a la tabla de simbolos */ tablaSimbolos.agregarObjeto(identificadores.get(i), tipos.get(i),true);}                                   
-for(int i=0;i<constantes.size();i++) {
-/* Agrego cte - token a la tabla de simbolos */ tablaSimbolos.agregarObjeto(constantes.get(i), tokens.get(i),false);}                                   
+		 {
+			tablaSimbolos.agregarObjeto(identificador, tipo,true);
+			tablaSimbolos.agregarObjeto(identificadoraux, tipoaux,true);
+		 }
 
-            /* mostrar tabla de simbolos / exportarla a txt */
-            //tablaSimbolos.imprimirTabla();
-            tablaSimbolos.escribirTabla();
-        
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("pgm",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
-            } 
+         /* mostrar tabla de simbolos / exportarla a txt */
+         //tablaSimbolos.imprimirTabla();
+         tablaSimbolos.escribirTabla();
+    
+         CUP$parser$result = parser.getSymbolFactory().newSymbol("pgm",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+        } 
             
           return CUP$parser$result;
 
@@ -931,9 +946,9 @@ for(int i=0;i<constantes.size();i++) {
         /* Invertimos el array de identificadores para matchear correctamente id-tipo */                 
         Collections.reverse(identificadores);
         
-        //System.out.println("//---ID y TIPO guardados:---//");
+        System.out.println("//---ID y TIPO guardados: case 22---//");
         for(int i=0;i<identificadores.size();i++) {
-            //System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i)); 
+            System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i)); 
             
             /* Agrego id - tipo a la tabla de simbolos */                      
             tablaSimbolos.agregarObjeto(identificadores.get(i), tipos.get(i),true);
@@ -1414,6 +1429,7 @@ for(int i=0;i<constantes.size();i++) {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		NodoExpresion e = (NodoExpresion)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
+		RESULT = e;
 		listaReglas = listaReglas + "[Regla 43] (Expresion)" + "\n";
             
               CUP$parser$result = parser.getSymbolFactory().newSymbol("factor",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);

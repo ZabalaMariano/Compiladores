@@ -1,0 +1,524 @@
+package compilador;
+import tabla_simbolos.ObjCteInt;
+import tabla_simbolos.ObjCteReal;
+import tabla_simbolos.ObjCteString;
+import tabla_simbolos.TablaSimbolos;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+import java_cup.runtime.*;
+import ast.*;
+
+parser code
+{:/* tabla-simbolos */
+  TablaSimbolos tablaSimbolos = new TablaSimbolos();
+  
+  /* Declaraciones dentro de DECVAR - ENDDEC */
+  /* arrays usados para relacion id-tipo correctamente (ya que parsea de afuera hacia adentro)*/
+  ArrayList<String> identificadores = new ArrayList<String> ();
+  ArrayList<String> tipos = new ArrayList<String> ();
+  String identificador;//Para filter
+  String tipo;//Para filter
+  String identificadoraux;//Para filter
+  String tipoaux;//Para filter
+  ArrayList<String> constantes = new ArrayList<String> ();
+  ArrayList<String> tokens = new ArrayList<String> ();
+
+  String error_sintaxis = "";
+  
+  /**Metodo al que se llama automaticamente ante algun error sintactico.*/
+  public void syntax_error(Symbol s){
+  	this.error_sintaxis = ("Error en la linea " + (s.right+1) + " columna " + s.left + ". "
+          + s + " no reconocido. valor " + s.value );
+  }:}
+
+action code
+{:
+    public String resultado="";
+public List<NodoSentencia> a ;
+public List<NodoExpresion> b ;
+
+:}
+
+terminal mas ,menos, eol, dividido, por, parentesisA, parentesisC;
+terminal bloqueA, bloqueC, asigna, asignaCTE, distinto, menorigual, mayorigual, menor, mayor, igual;
+terminal corcheteA, corcheteC, coma, guion_bajo, palabraif, palabraelse, palabradecvar, palabraenddec, palabrafloat, palabraint, palabrastring;
+terminal palabrawhile, palabraprint, palabrafilter;
+terminal String id, constString, cte, cteReal;
+
+non terminal NodoPrograma pgm;
+non terminal List<NodoSentencia> lista_sentencias;
+non terminal NodoSentencia sentencia;
+non terminal NodoIf sentenciaif;
+non terminal NodoWhile sentenciawhile;
+non terminal NodoPrint sentenciaprint;
+non terminal NodoPrintIdentificador sentenciaprintidentificador;
+non terminal NodoExpresion expresion, termino, factor, condicion; 
+non terminal NodoAsignacion sentenciaasignacion;
+non terminal NodoFilter filter;
+non terminal List<NodoExpresion> lista_expresiones;
+non terminal decvar;
+non terminal lista, lista_declaracion_var;
+
+start with pgm;
+
+
+pgm ::= decvar:dv lista_sentencias:ls {: 
+		 RESULT = new NodoPrograma(ls);
+            System.out.println("pgm Regla 0");
+
+/* Invertimos el array de identificadores para matchear correctamente id-tipo */ Collections.reverse(identificadores);
+for(int i=0;i<identificadores.size();i++) {
+/* Agrego id - tipo a la tabla de simbolos */ tablaSimbolos.agregarObjeto(identificadores.get(i), tipos.get(i),true);}                                   
+for(int i=0;i<constantes.size();i++) {
+/* Agrego cte - token a la tabla de simbolos */ tablaSimbolos.agregarObjeto(constantes.get(i), tokens.get(i),false);}                                   
+
+            /* mostrar tabla de simbolos / exportarla a txt */
+            tablaSimbolos.imprimirTabla();
+            tablaSimbolos.escribirTabla();
+        :};
+
+lista_sentencias ::= lista_sentencias:ls sentencia:s eol {:
+				   ls.add(s);
+				   RESULT = ls;					
+                        System.out.println("sentencias Regla 1"); :}
+                     | sentencia:s eol {:
+				   a = new ArrayList<NodoSentencia>();
+                        a.add(s);
+                        RESULT = a;
+                        System.out.println("sentencia Regla 2"); :};
+
+sentencia ::= sentenciaasignacion:a {:
+			RESULT = a;
+                System.out.println("sentencia asignacion Regla 3"); 
+              :} 
+
+              | sentenciaif:sif {:
+			    RESULT = sif;
+                    System.out.println("sentencia if Regla 4"); 
+              :} 
+
+              | sentenciawhile:swhile {:
+			    RESULT = swhile;
+                    System.out.println("sentencia while Regla 5"); 
+              :} 
+
+              | sentenciaprint:sprint {:
+			    RESULT = sprint;
+                    System.out.println("sentencia print Regla 6"); 
+              :}
+
+              | sentenciaprintidentificador:sprint {:
+			    RESULT = sprint;
+                    System.out.println("sentencia print Regla 6"); 
+              :};
+
+sentenciaasignacion ::=  id:id asignaCTE expresion:e {:
+					RESULT= new NodoAsignacion(new NodoIdentificador(id), e);  
+                           System.out.println("id asigna expresion Regla 7");
+                         :};
+
+sentenciaif ::= palabraif parentesisA condicion:c parentesisC bloqueA lista_sentencias:ls bloqueC {:
+			   RESULT= new NodoIf(c, new NodoThen(ls), null); 
+                   System.out.println("if-simple Regla 9"); 
+                :} 
+                
+                | palabraif parentesisA condicion:c parentesisC bloqueA lista_sentencias:ls1 bloqueC palabraelse bloqueA lista_sentencias:ls2 bloqueC {:
+			   RESULT= new NodoIf(c, new NodoThen(ls1), new NodoElse(ls2)); 
+                   System.out.println("if-else Regla 10"); 
+                :};
+
+sentenciawhile ::= palabrawhile parentesisA condicion:c parentesisC bloqueA lista_sentencias:ls bloqueC {:
+			   RESULT= new NodoWhile(c, new NodoDo(ls));
+                   System.out.println("while Regla 11"); 
+                 :};
+
+sentenciaprint ::= palabraprint parentesisA constString:cs parentesisC {: 
+                    String p = new String(cs); 
+                    if(((String)p).length()>30){
+                        p = ((String)p).substring(0, Math.min(((String)p).length(), 30));
+                        System.out.println("Warning: String mayor a 30, se aplica trunc. Print CTES Regla 12");/*throw new RuntimeException("ERROR idString mayor a 30 caracteres (Regla 12)");*/
+                    } else {
+                        System.out.println("Print CTES Regla 12");
+                    } 
+
+                   /*almaceno consString en constantes y 'CTE_STR' en token*/ constantes.add(cs); tokens.add("CTE_STR");
+				RESULT = new NodoPrint(new NodoConstanteString(p));
+		:};
+
+sentenciaprintidentificador ::= palabraprint parentesisA id:id parentesisC {:
+		RESULT = new NodoPrintIdentificador(new NodoIdentificador(id));
+		:};
+
+decvar ::= palabradecvar lista:l palabraenddec {:
+                   System.out.println("decvar Regla 14"); 
+           :};
+
+lista ::= lista:l corcheteA id:id lista_declaracion_var:ldv palabraint:t corcheteC {:
+                RESULT=new String(id); 
+                if( ( ( String )RESULT ).length()>10 ){
+                    id = ( ( String )id ).substring(0, Math.min(( ( String )id ).length(), 10));
+                    System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+                } 
+                System.out.println("lista decvar recursiva id-int Regla 15"); 
+                
+                /*almaceno id en identificadores y 'int' en tipos*/ 
+                identificadores.add(id); tipos.add("int");
+        :}  
+
+        | lista:l corcheteA id:id lista_declaracion_var:ldv palabrafloat:t corcheteC {:
+                RESULT=new String(id); 
+                if( ( ( String )RESULT ).length()>10 ){
+                    id = ( ( String )id ).substring(0, Math.min( ( ( String )id ).length(), 10));
+                    System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+                } 
+                System.out.println("lista decvar recursiva id-float Regla 16"); 
+
+                /*almaceno id en identificadores y 'float' en tipos*/ 
+                identificadores.add(id); tipos.add("float");
+        :}  
+
+	| lista:l corcheteA id:id lista_declaracion_var:ldv palabrastring:t corcheteC {:
+                RESULT=new String(id); 
+                if( ( ( String )RESULT ).length()>10 ){
+                    id = ( ( String )id ).substring(0, Math.min( ( ( String )id ).length(), 10));
+                    System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+                } 
+                System.out.println("lista decvar recursiva id-string Regla 16"); 
+
+                /*almaceno id en identificadores y 'string' en tipos*/ 
+                identificadores.add(id); tipos.add("string");
+        :}
+
+        | corcheteA id:id lista_declaracion_var:ldv palabraint:t corcheteC {:
+                RESULT=new String(id); 
+                if( ( ( String )RESULT ).length()>10){
+                    id = ( ( String )id ).substring(0, Math.min( ( ( String )id ).length(), 10));
+                    System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+                }
+                System.out.println("lista decvar simple id-int Regla 18"); 
+
+                /*almaceno id en identificadores y 'int' en tipos*/
+                identificadores.add(id); tipos.add("int");
+        :}
+
+        |  corcheteA id:id lista_declaracion_var:ldv palabrafloat:t corcheteC {:
+                RESULT=new String(id); 
+                if( ( ( String )RESULT ).length()>10){
+                    id = ( ( String )id ).substring(0, Math.min(((String)id).length(), 10));
+                    System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+                } 
+                System.out.println("lista decvar simple id-float Regla 19"); 
+
+                /*almaceno id en identificadores y 'float' en tipos*/
+                identificadores.add(id); tipos.add("float");
+        :}
+
+        |  corcheteA id:id lista_declaracion_var:ldv palabrastring:t corcheteC {:
+                RESULT=new String(id); 
+                if( ( ( String )RESULT ).length()>10){
+                    id = ( ( String )id ).substring(0, Math.min(((String)id).length(), 10));
+                    System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+                } 
+                System.out.println("lista decvar simple id-string Regla 19"); 
+
+                /*almaceno id en identificadores y 'string' en tipos*/
+                identificadores.add(id); tipos.add("string");
+        :};
+
+lista_declaracion_var ::= corcheteC asigna corcheteA {:
+        System.out.println("fin lista declaracion var Regla 21"); 
+        
+        /* Invertimos el array de identificadores para matchear correctamente id-tipo */                 
+        Collections.reverse(identificadores);
+        
+        /* mostrar array de id y tipos */
+        System.out.println("Identificadores: ");
+        
+        //System.out.println("//---ID y TIPO guardados:---//");
+        for(int i=0;i<identificadores.size();i++) {
+            //System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i)); 
+            
+            /* Agrego id - tipo a la tabla de simbolos */                      
+            tablaSimbolos.agregarObjeto(identificadores.get(i), tipos.get(i),true);
+        }                               
+            
+        //System.out.println("//--------------------------//");
+
+        /* limpiarmos los array list para la siguiente declaracion de [id,id,..] := [tipo,tipo,..]*/                                    
+        identificadores.clear(); tipos.clear();
+	 :} 
+
+	| coma id:id lista_declaracion_var:ldv palabraint:t coma {:
+            RESULT=new String(id); 
+            if( ( ( String )RESULT ).length()>10){
+                id = ( ( String )id ).substring(0, Math.min(((String)id).length(), 10));
+                System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+            }
+            System.out.println("lista declaracion var nuevo par de ID-int Regla 22"); 
+            /*almaceno id en identificadores y 'int' en tipos*/
+             identificadores.add(id); tipos.add("int");
+        :} 
+
+        | coma id:id lista_declaracion_var:ldv palabrafloat:t coma {:
+            RESULT=new String(id); 
+            if(((String)RESULT).length()>10){
+                id = ((String)id).substring(0, Math.min(((String)id).length(), 10));
+                System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+            }
+            System.out.println("lista declaracion var nuevo par de ID-float Regla 23"); 
+            /*almaceno id en identificadores y 'float' en tipos*/ 
+            identificadores.add(id); tipos.add("float");
+        :}
+
+	| coma id:id lista_declaracion_var:ldv palabrastring:t coma {:
+            RESULT=new String(id); 
+            if(((String)RESULT).length()>10){
+                id = ((String)id).substring(0, Math.min(((String)id).length(), 10));
+                System.out.println("Warning: ID mayor a 10, se aplica trunc.");
+            }
+            System.out.println("lista declaracion var nuevo par de ID-float Regla 23"); 
+            /*almaceno id en identificadores y 'string' en tipos*/ 
+            identificadores.add(id); tipos.add("string");
+        :};
+
+lista_expresiones ::= expresion:e {:
+			b = new ArrayList<NodoExpresion>();
+                b.add(e);
+                RESULT = b;
+                System.out.println("fin lista_expresiones Regla 25"); 
+            :} 
+            
+            | lista_expresiones:le coma expresion:e {:
+			le.add(e);
+			RESULT = le;
+                System.out.println("lista_expresiones recursiva Regla 26"); 
+            :};
+
+condicion ::= parentesisA expresion:e1 parentesisC mayor parentesisA expresion:e2 parentesisC {:
+			RESULT = new NodoMayor(e1, e2);
+                System.out.println("Condicion mayor Regla 27"); 
+            :} 
+
+            | parentesisA expresion:e1 parentesisC menor parentesisA expresion:e2 parentesisC {:
+			RESULT = new NodoMenor(e1, e2);
+                System.out.println("Condicion menor Regla 28"); 
+            :} 
+
+            | parentesisA expresion:e1 parentesisC igual parentesisA expresion:e2 parentesisC {:
+			RESULT = new NodoIgual(e1, e2);
+                System.out.println("Condicion igual Regla 29"); 
+            :} 
+
+            | parentesisA expresion:e1 parentesisC mayorigual parentesisA expresion:e2 parentesisC {:
+			RESULT = new NodoMayorIgual(e1, e2);
+                System.out.println("Condicion mayorigual Regla 30"); 
+            :} 
+
+            | parentesisA expresion:e1 parentesisC menorigual parentesisA expresion:e2 parentesisC {:
+			RESULT = new NodoMenorIgual(e1, e2);
+                System.out.println("Condicion menorigual Regla 31"); 
+            :} 
+            
+            | parentesisA expresion:e1 parentesisC distinto parentesisA expresion:e2 parentesisC {:
+			RESULT = new NodoDistinto(e1, e2);
+                System.out.println("Condicion distinto Regla 32"); 
+            :};
+
+expresion ::= expresion:a mas termino:b {: 
+			RESULT = new NodoSuma(a, b);
+                System.out.println("E+T Regla 33"); 
+             :}
+            | expresion:a menos termino:b  {:
+			RESULT = new NodoResta(a, b);
+                System.out.println("E-T Regla 34");
+            :} 
+            | termino:a  {:
+			RESULT = a;
+                System.out.println("Termino Regla 35"); 
+            :};
+
+termino ::= termino:a por factor:b {: 
+			RESULT = new NodoMultiplicacion(a, b);
+                System.out.println("T*F Regla 36");
+            :} 
+
+            | termino:a dividido factor:b {: 
+			RESULT = new NodoDivision(a, b);
+                System.out.println("T/F Regla 37");
+            :} 
+
+            | factor:a {:
+			RESULT = a;
+                System.out.println("Factor Regla 38");
+            :};
+
+factor ::=  id:id {:
+			RESULT =new NodoIdentificador(id); 
+                System.out.println("id Regla 39");
+            :} 
+
+	    | constString:constString {: 
+                if (constString.length()>30){ 
+                    throw new RuntimeException("ERROR variable constString demasiado larga (mayor a 30 caracteres) (Regla 40)");
+                } else {
+		    RESULT =new NodoConstanteString(constString);
+                    System.out.println("constString Regla 40");
+                    
+                    /*almaceno constString en constantes y 'CTE_STR' en token*/ 
+                    constantes.add(constString); tokens.add("CTE_STR");
+                }
+            :} 
+
+            | cteReal:ctereal {: 
+                float f= Float.parseFloat(ctereal); 
+                if (Float.isInfinite(f)){ 
+                    throw new RuntimeException("ERROR variable cteReal mayor a 32bit (Regla 40)");
+                    /*System.out.println("ERROR cteReal mayor a 32bit Regla 40");*/ 
+                } else {
+		    RESULT =new NodoConstanteReal(Float.parseFloat(ctereal));
+                    System.out.println("cteReal Regla 40");
+                    
+                    /*almaceno consFloat en constantes y 'CTE_F' en token*/ 
+                    constantes.add(ctereal); tokens.add("CTE_F");
+                }
+            :} 
+
+            | cte:cte {: 
+                try { 
+                    Short var_short = Short.valueOf(cte); 
+			    RESULT =new NodoConstante(var_short);
+
+                    System.out.println("cte Regla 40"); 
+
+                    /*almaceno consEntera en constantes y 'CTE_E' en token*/ 
+                    constantes.add(cte); tokens.add("CTE_E");
+                }catch(NumberFormatException e) {
+                    /*throw new RuntimeException("ERROR variable cte mayor a 16bit (Regla 40)");*/
+                    System.out.println("ERROR cte mayor a 16bit Regla 40");
+                }
+            :} 
+
+            | parentesisA expresion:e parentesisC {: 
+			RESULT = e;
+                System.out.println("expresion entre parentesis Regla 41");
+            :} 
+
+            | filter:f {: 
+			RESULT = f;
+                System.out.println("factor filter Regla 42");
+            :};
+
+filter ::= palabrafilter parentesisA guion_bajo mayor expresion:e coma corcheteA lista_expresiones:le corcheteC parentesisC {:
+		NodoExpresion ne1 = le.get(0);
+		NodoExpresionBinaria neb = (NodoExpresionBinaria) ne1;
+		NodoExpresion ne2 = neb.copy();
+		le.remove(0);
+		NodoIdentificador aux1 = new NodoIdentificador("aux");
+		NodoIdentificador aux2 = new NodoIdentificador("aux");
+		NodoIdentificador c = new NodoIdentificador("c");
+		NodoSentencia ns = new NodoAsignacion(c, ne1);  
+		List<NodoSentencia> lns = new ArrayList<NodoSentencia>();
+		lns.add(ns);
+		
+		List<NodoSentencia> ls = new ArrayList<NodoSentencia>();
+		ls = Filter.sentencias(le,"Mayor");
+		
+			RESULT = new NodoFilter(new NodoAsignacion(aux1, e), new NodoIf(new NodoMayor(ne2,aux2),new NodoThen(lns),new NodoElse(ls)));
+                System.out.println("filter mayor Regla 43"); 
+           :} 
+            
+            | palabrafilter parentesisA guion_bajo menor expresion:e coma corcheteA lista_expresiones:le corcheteC parentesisC {:
+		NodoExpresion ne1 = le.get(0);
+		NodoExpresionBinaria neb = (NodoExpresionBinaria) ne1;
+		NodoExpresion ne2 = neb.copy();
+		le.remove(0);
+		NodoIdentificador aux1 = new NodoIdentificador("aux");
+		NodoIdentificador aux2 = new NodoIdentificador("aux");
+		NodoIdentificador c = new NodoIdentificador("c");
+		NodoSentencia ns = new NodoAsignacion(c, ne1);  
+		List<NodoSentencia> lns = new ArrayList<NodoSentencia>();
+		lns.add(ns);
+		
+		List<NodoSentencia> ls = new ArrayList<NodoSentencia>();
+		ls = Filter.sentencias(le,"Menor");
+		
+			RESULT = new NodoFilter(new NodoAsignacion(aux1, e), new NodoIf(new NodoMenor(ne2,aux2),new NodoThen(lns),new NodoElse(ls)));
+                System.out.println("filter menor Regla 44"); 
+            :} 
+
+            | palabrafilter parentesisA guion_bajo mayorigual expresion:e coma corcheteA lista_expresiones:le corcheteC parentesisC {:
+		NodoExpresion ne1 = le.get(0);
+		NodoExpresionBinaria neb = (NodoExpresionBinaria) ne1;
+		NodoExpresion ne2 = neb.copy();
+		le.remove(0);
+		NodoIdentificador aux1 = new NodoIdentificador("aux");
+		NodoIdentificador aux2 = new NodoIdentificador("aux");
+		NodoIdentificador c = new NodoIdentificador("c");
+		NodoSentencia ns = new NodoAsignacion(c, ne1);  
+		List<NodoSentencia> lns = new ArrayList<NodoSentencia>();
+		lns.add(ns);
+		
+		List<NodoSentencia> ls = new ArrayList<NodoSentencia>();
+		ls = Filter.sentencias(le,"MayorIgual");
+		
+			RESULT = new NodoFilter(new NodoAsignacion(aux1, e), new NodoIf(new NodoMayorIgual(ne2,aux2),new NodoThen(lns),new NodoElse(ls)));
+                System.out.println("filter mayorigual Regla 45"); 
+            :} 
+
+            | palabrafilter parentesisA guion_bajo menorigual expresion:e coma corcheteA lista_expresiones:le corcheteC parentesisC {:
+		NodoExpresion ne1 = le.get(0);
+		NodoExpresionBinaria neb = (NodoExpresionBinaria) ne1;
+		NodoExpresion ne2 = neb.copy();
+		le.remove(0);
+		NodoIdentificador aux1 = new NodoIdentificador("aux");
+		NodoIdentificador aux2 = new NodoIdentificador("aux");
+		NodoIdentificador c = new NodoIdentificador("c");
+		NodoSentencia ns = new NodoAsignacion(c, ne1);  
+		List<NodoSentencia> lns = new ArrayList<NodoSentencia>();
+		lns.add(ns);
+		
+		List<NodoSentencia> ls = new ArrayList<NodoSentencia>();
+		ls = Filter.sentencias(le,"MenorIgual");
+		
+			RESULT = new NodoFilter(new NodoAsignacion(aux1, e), new NodoIf(new NodoMenorIgual(ne2,aux2),new NodoThen(lns),new NodoElse(ls)));
+                System.out.println("filter menorigual Regla 46"); 
+            :} 
+
+            | palabrafilter parentesisA guion_bajo distinto expresion:e coma corcheteA lista_expresiones:le corcheteC parentesisC {:
+		NodoExpresion ne1 = le.get(0);
+		NodoExpresionBinaria neb = (NodoExpresionBinaria) ne1;
+		NodoExpresion ne2 = neb.copy();
+		le.remove(0);
+		NodoIdentificador aux1 = new NodoIdentificador("aux");
+		NodoIdentificador aux2 = new NodoIdentificador("aux");
+		NodoIdentificador c = new NodoIdentificador("c");
+		NodoSentencia ns = new NodoAsignacion(c, ne1);  
+		List<NodoSentencia> lns = new ArrayList<NodoSentencia>();
+		lns.add(ns);
+		
+		List<NodoSentencia> ls = new ArrayList<NodoSentencia>();
+		ls = Filter.sentencias(le,"Distinto");
+		
+			RESULT = new NodoFilter(new NodoAsignacion(aux1, e), new NodoIf(new NodoDistinto(ne2,aux2),new NodoThen(lns),new NodoElse(ls)));
+                System.out.println("filter distinto Regla 47"); 
+            :} 
+            
+            | palabrafilter parentesisA guion_bajo igual expresion:e coma corcheteA lista_expresiones:le corcheteC parentesisC {:
+		NodoExpresion ne1 = le.get(0);
+		NodoExpresionBinaria neb = (NodoExpresionBinaria) ne1;
+		NodoExpresion ne2 = neb.copy();
+		le.remove(0);
+		NodoIdentificador aux1 = new NodoIdentificador("aux");
+		NodoIdentificador aux2 = new NodoIdentificador("aux");
+		NodoIdentificador c = new NodoIdentificador("c");
+		NodoSentencia ns = new NodoAsignacion(c, ne1);  
+		List<NodoSentencia> lns = new ArrayList<NodoSentencia>();
+		lns.add(ns);
+		
+		List<NodoSentencia> ls = new ArrayList<NodoSentencia>();
+		ls = Filter.sentencias(le,"Igual");
+		
+			RESULT = new NodoFilter(new NodoAsignacion(aux1, e), new NodoIf(new NodoIgual(ne2,aux2),new NodoThen(lns),new NodoElse(ls)));
+                System.out.println("filter igual Regla 48"); 
+            :};
