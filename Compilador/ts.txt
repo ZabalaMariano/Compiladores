@@ -1,33 +1,18 @@
                          Nombre      Token       Tipo                          Valor   Longitud
                              _0      CTE_E        ---                              0        ---
-                            _10      CTE_E        ---                             10        ---
                              _5      CTE_E        ---                              5        ---
-                             _2      CTE_E        ---                              2        ---
+                             _6      CTE_E        ---                              6        ---
                              _4      CTE_E        ---                              4        ---
-                             _1      CTE_E        ---                              1        ---
                              _3      CTE_E        ---                              3        ---
-                             _7      CTE_E        ---                              7        ---
-                             _9      CTE_E        ---                              9        ---
-                           _100      CTE_E        ---                            100        ---
-                           _107      CTE_E        ---                            107        ---
-         _Hola_mundo_CTE_STRING    CTE_STR        ---          Hola mundo CTE STRING         21
-          _Hola_mundo_ID_String    CTE_STR        ---           Hola mundo ID String         20
-               _Division_da_2.5    CTE_STR        ---                Division da 2.5         15
-                 _Division_da_2    CTE_STR        ---                  Division da 2         13
-        _While_imprime_3_veces.    CTE_STR        ---         While imprime 3 veces.         22
-               _While,_Print_1.    CTE_STR        ---                While, Print 1.         15
-               _While,_Print_2.    CTE_STR        ---                While, Print 2.         15
-               _While,_Print_3.    CTE_STR        ---                While, Print 3.         15
-      _a1_==_107,_Exito_Filter.    CTE_STR        ---       a1 == 107, Exito Filter.         24
-                      _2+2_==_5    CTE_STR        ---                       2+2 == 5          8
-                      _2+2_!=_5    CTE_STR        ---                       2+2 != 5          8
-                           _7.5      CTE_F        ---                            7.5        ---
-                           _2.5      CTE_F        ---                            2.5        ---
-                             a1         ID        int                            ---        ---
-                             c1         ID      float                            ---        ---
-                             d1         ID        int                            ---        ---
-                             e1         ID        int                            ---        ---
-                             f1         ID      float                            ---        ---
-                             s1         ID     string                            ---        ---
+                             _2      CTE_E        ---                              2        ---
+                             _8      CTE_E        ---                              8        ---
+                            _49      CTE_E        ---                             49        ---
+                            _50      CTE_E        ---                             50        ---
+                      _correcto    CTE_STR        ---                       correcto          8
+                           var1         ID        int                            ---        ---
+                           var2         ID        int                            ---        ---
+                           var3         ID        int                            ---        ---
+                            cad         ID     string                            ---        ---
+                           cad2         ID     string                            ---        ---
                              @c         ID      float                            ---        ---
                            @aux         ID      float                            ---        ---

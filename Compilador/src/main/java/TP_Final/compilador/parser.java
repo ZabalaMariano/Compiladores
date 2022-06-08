@@ -398,19 +398,11 @@ public List<NodoExpresion> b ;
             
 		 listaReglas = listaReglas + "[Regla 0] Programa" + "\n";	
 		 
-		//BORRAR////////////////////////////////////v
-		 System.out.println("//---ALL ID y TIPO guardados: case 1---//");
-	     for(int i=0;i<allIdentificadores.size();i++) {
-	            System.out.println("id: " + allIdentificadores.get(i) + " tipo: " +allTipos.get(i));
-		 }
-	   //BORRAR////////////////////////////////////v
-		 
 		 /* Invertimos el array de identificadores para matchear correctamente id-tipo */ 
-		 //Collections.reverse(identificadores);
+		 Collections.reverse(identificadores);
 		 
-		 System.out.println("//---ID y TIPO guardados: case 1---//");
 	     for(int i=0;i<identificadores.size();i++) {
-	            System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i));	
+	            //System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i));	
 	            /* Agrego id - tipo a la tabla de simbolos */ 
 	            tablaSimbolos.agregarObjeto(identificadores.get(i), tipos.get(i),true);
 		 }
@@ -565,15 +557,17 @@ public List<NodoExpresion> b ;
 
 		String exp = e.getDescripcionNodo();
 		String idTipo = "";
-		//**
-		ArrayList<String> identificadores2 = identificadores;
-		Collections.reverse(identificadores2);
-		for(int i=0; i<identificadores2.size(); i++) {
-			if(identificadores2.get(i).equals(id)) {
+		
+		Collections.reverse(identificadores);
+		for(int i=0; i<identificadores.size(); i++) {
+			//System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i));
+			if(identificadores.get(i).equals(id)) {
 				idTipo = tipos.get(i);
 			}
 		}
+		Collections.reverse(identificadores);
 		for(int i=0; i<allIdentificadores.size(); i++) {
+			//System.out.println("id: " + allIdentificadores.get(i) + " tipo: " +allTipos.get(i));
 			if(allIdentificadores.get(i).equals(id)) {
 				idTipo = allTipos.get(i);
 			}
@@ -946,9 +940,8 @@ public List<NodoExpresion> b ;
         /* Invertimos el array de identificadores para matchear correctamente id-tipo */                 
         Collections.reverse(identificadores);
         
-        System.out.println("//---ID y TIPO guardados: case 22---//");
         for(int i=0;i<identificadores.size();i++) {
-            System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i)); 
+            //System.out.println("id: " + identificadores.get(i) + " tipo: " +tipos.get(i)); 
             
             /* Agrego id - tipo a la tabla de simbolos */                      
             tablaSimbolos.agregarObjeto(identificadores.get(i), tipos.get(i),true);
@@ -956,9 +949,7 @@ public List<NodoExpresion> b ;
             //**
             allIdentificadores.add(identificadores.get(i));
             allTipos.add(tipos.get(i));
-        }                               
-            
-        //System.out.println("//--------------------------//");
+        }
 
         /* limpiamos los array list para la siguiente declaracion de [id,id,..] := [tipo,tipo,..]*/                                    
         identificadores.clear(); tipos.clear();        

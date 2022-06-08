@@ -15,7 +15,7 @@ LineTerminator = \r|\n|\r\n
 
 WhiteSpace     = {LineTerminator} | [ \t\f]
 
-identificador = [a-z][a-zA-Z0-9]{1,9}
+identificador = [a-z][a-zA-Z0-9]{1,10}
 
 constEntera = [1-9][0-9]* | 0
 
@@ -29,7 +29,7 @@ operador = (\+|-|\/|\*|>|<|\!=|<=|>=|=){1}
 
 signo = ,|:|;
 
-comentario = [<][/][^/]*[/]+([^/>][^/]*[/]+)*[>]
+comentario = "</" [^(\/>)]* "/>"
 
 %%
 

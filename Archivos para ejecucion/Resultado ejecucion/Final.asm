@@ -104,7 +104,7 @@ fxch
 fcomp
 fstsw ax
 sahf
-jne IF_Nro31END
+jne IF_Nro21END
 
 mov dx, OFFSET _Division_da_2%x2e5
 mov ah, 9
@@ -115,9 +115,9 @@ int 21h
 mov dl, 10
 int 21h
 
-jmp IF_Nro31END
+jmp IF_Nro21END
 
-IF_Nro31END:
+IF_Nro21END:
 
 fild _4
 
@@ -131,7 +131,7 @@ fxch
 fcomp
 fstsw ax
 sahf
-jne IF_Nro32END
+jne IF_Nro22END
 
 mov dx, OFFSET _Division_da_2
 mov ah, 9
@@ -142,9 +142,9 @@ int 21h
 mov dl, 10
 int 21h
 
-jmp IF_Nro32END
+jmp IF_Nro22END
 
-IF_Nro32END:
+IF_Nro22END:
 
 fild _1
 
@@ -159,7 +159,7 @@ int 21h
 mov dl, 10
 int 21h
 
-WHILE_Nro4START:
+WHILE_Nro3START:
 
 fild _3
 
@@ -168,7 +168,7 @@ fld a1
 fcomp
 fstsw ax
 sahf
-jnbe WHILE_Nro4END
+jnbe WHILE_Nro3END
 
 fild _1
 
@@ -177,7 +177,7 @@ fld a1
 fcomp
 fstsw ax
 sahf
-jne IF_Nro33END
+jne IF_Nro23END
 
 mov dx, OFFSET _While%x2c_Print_1%x2e
 mov ah, 9
@@ -188,9 +188,9 @@ int 21h
 mov dl, 10
 int 21h
 
-jmp IF_Nro33END
+jmp IF_Nro23END
 
-IF_Nro33END:
+IF_Nro23END:
 
 fild _2
 
@@ -199,7 +199,7 @@ fld a1
 fcomp
 fstsw ax
 sahf
-jne IF_Nro34END
+jne IF_Nro24END
 
 mov dx, OFFSET _While%x2c_Print_2%x2e
 mov ah, 9
@@ -210,9 +210,9 @@ int 21h
 mov dl, 10
 int 21h
 
-jmp IF_Nro34END
+jmp IF_Nro24END
 
-IF_Nro34END:
+IF_Nro24END:
 
 fild _3
 
@@ -221,7 +221,7 @@ fld a1
 fcomp
 fstsw ax
 sahf
-jne IF_Nro35END
+jne IF_Nro25END
 
 mov dx, OFFSET _While%x2c_Print_3%x2e
 mov ah, 9
@@ -232,9 +232,9 @@ int 21h
 mov dl, 10
 int 21h
 
-jmp IF_Nro35END
+jmp IF_Nro25END
 
-IF_Nro35END:
+IF_Nro25END:
 
 fld a1
 
@@ -244,8 +244,8 @@ fadd
 
 fstp a1
 
-jmp WHILE_Nro4START
-WHILE_Nro4END:
+jmp WHILE_Nro3START
+WHILE_Nro3END:
 
 fild _5
 
@@ -267,7 +267,7 @@ fxch
 fcomp
 fstsw ax
 sahf
-jna IF_Nro38ELSE
+jna IF_Nro28ELSE
 
 fild _1
 
@@ -277,9 +277,9 @@ fmulp
 
 fstp @c
 
-jmp IF_Nro38END
+jmp IF_Nro28END
 
-IF_Nro38ELSE:
+IF_Nro28ELSE:
 
 fild _7
 
@@ -291,15 +291,15 @@ fxch
 fcomp
 fstsw ax
 sahf
-jna IF_Nro37ELSE
+jna IF_Nro27ELSE
 
 fild _7
 
 fstp @c
 
-jmp IF_Nro37END
+jmp IF_Nro27END
 
-IF_Nro37ELSE:
+IF_Nro27ELSE:
 
 fild _3
 
@@ -317,7 +317,7 @@ fxch
 fcomp
 fstsw ax
 sahf
-jna IF_Nro36ELSE
+jna IF_Nro26ELSE
 
 fild _3
 
@@ -327,19 +327,19 @@ fadd
 
 fstp @c
 
-jmp IF_Nro36END
+jmp IF_Nro26END
 
-IF_Nro36ELSE:
+IF_Nro26ELSE:
 
 fild _0
 
 fstp @c
 
-IF_Nro36END:
+IF_Nro26END:
 
-IF_Nro37END:
+IF_Nro27END:
 
-IF_Nro38END:
+IF_Nro28END:
 
 fld @c
 
@@ -356,7 +356,7 @@ fld a1
 fcomp
 fstsw ax
 sahf
-jne IF_Nro39END
+jne IF_Nro29END
 
 mov dx, OFFSET _a1_%x3d%x3d_107%x2c_Exito_Filter%x2e
 mov ah, 9
@@ -367,9 +367,9 @@ int 21h
 mov dl, 10
 int 21h
 
-jmp IF_Nro39END
+jmp IF_Nro29END
 
-IF_Nro39END:
+IF_Nro29END:
 
 fild _2
 
@@ -383,7 +383,7 @@ fxch
 fcomp
 fstsw ax
 sahf
-jne IF_Nro40ELSE
+jne IF_Nro30ELSE
 
 mov dx, OFFSET _2%x2b2_%x3d%x3d_5
 mov ah, 9
@@ -394,9 +394,9 @@ int 21h
 mov dl, 10
 int 21h
 
-jmp IF_Nro40END
+jmp IF_Nro30END
 
-IF_Nro40ELSE:
+IF_Nro30ELSE:
 
 mov dx, OFFSET _2%x2b2_%x21%x3d_5
 mov ah, 9
@@ -407,7 +407,7 @@ int 21h
 mov dl, 10
 int 21h
 
-IF_Nro40END:
+IF_Nro30END:
 
 mov ax, 4C00h
 int 21h
